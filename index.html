@@ -582,44 +582,33 @@
     .excite-row button { width: 40px; height: 40px; font-size: 1rem; }
   }
 
-  /* ---------- HOLI FESTIVAL PLANES ---------- */
-  .holi-container { 
+  /* ---------- AIRSHOW HOLI BURST PLANES ---------- */
+  .airshow-container { 
     position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; 
   }
   .ending-quote, .ending-signoff, .ending-plane { 
     position: relative; z-index: 3; 
   }
-  .holi-wrap { 
-    position: absolute; display: flex; align-items: center; opacity: 0; will-change: transform, opacity; 
+  .burst-wrap { 
+    position: absolute; bottom: -5vh; left: 50%; margin-left: -16px; 
+    display: flex; flex-direction: column; align-items: center;
+    opacity: 0;
+    /* Custom ease-out curve so they shoot fast then drift beautifully */
+    animation: burst-fly 8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
   }
-  .holi-trail { 
-    width: 160px; height: 8px; border-radius: 8px; filter: blur(5px); opacity: 0.65; 
-  }
-  
-  /* Left to Right Planes */
-  .holi-wrap.lr { animation: flyHoliLR linear infinite; left: 0; }
-  .holi-wrap.lr .holi-trail { 
-    background: linear-gradient(to right, transparent, rgba(0,204,153,0.8), rgba(255,204,0,0.8), rgba(255,0,102,0.8)); 
-    margin-right: -12px; 
-  }
-  @keyframes flyHoliLR {
-    0% { transform: translate(-30vw, var(--start-y, 5vh)) rotate(var(--rot, -8deg)) scale(var(--scale, 0.8)); opacity: 0; }
-    10% { opacity: var(--max-op, 1); }
-    90% { opacity: var(--max-op, 1); }
-    100% { transform: translate(120vw, var(--end-y, -15vh)) rotate(var(--rot, -8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+  .burst-trail { 
+    width: 14px; height: 40vh; border-radius: 10px; filter: blur(5px); opacity: 0.85; 
+    margin-top: -8px; 
+    background: linear-gradient(to bottom, var(--trail-color) 0%, transparent 100%);
   }
   
-  /* Right to Left Planes */
-  .holi-wrap.rl { animation: flyHoliRL linear infinite; right: 0; flex-direction: row-reverse; }
-  .holi-wrap.rl .holi-trail { 
-    background: linear-gradient(to left, transparent, rgba(0,204,153,0.8), rgba(255,204,0,0.8), rgba(255,0,102,0.8)); 
-    margin-left: -12px; 
-  }
-  @keyframes flyHoliRL {
-    0% { transform: translate(30vw, var(--start-y, 5vh)) rotate(var(--rot, 8deg)) scale(var(--scale, 0.8)); opacity: 0; }
-    10% { opacity: var(--max-op, 1); }
-    90% { opacity: var(--max-op, 1); }
-    100% { transform: translate(-120vw, var(--end-y, -15vh)) rotate(var(--rot, 8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+  /* Master Mathematical Animation for Parabolas */
+  @keyframes burst-fly {
+    0% { transform: translate(0, 0vh) rotate(0deg) scale(0.2); opacity: 0; }
+    5% { opacity: 1; }
+    50% { transform: translate(var(--mid-x), var(--mid-y)) rotate(var(--mid-rot)) scale(0.8); }
+    90% { opacity: 1; }
+    100% { transform: translate(var(--end-x), var(--end-y)) rotate(var(--end-rot)) scale(1.2); opacity: 0; }
   }
 
   /* ---------- ENDING ---------- */
@@ -1016,19 +1005,19 @@
               <ul class="tree-cluster">
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name" data-trn="s-ua">Mr. Rajesh Kumar &amp; Mrs. Dayavati devi</span>
+                    <span class="fam-name" data-trn="s-ua1">Mr. Rajesh Kumar &amp; Mrs. Dayavati devi</span>
                     <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
                   </div>
                 </li>
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name" data-trn="s-ua">Late Jayprakesh Sharma &amp; Mrs. Shakuntala Devi</span>
+                    <span class="fam-name" data-trn="s-ua2">Late Jayprakash Sharma &amp; Mrs. Shakuntala Devi</span>
                     <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
                   </div>
                 </li>
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name" data-trn="s-ua">Mr. Narendra Kumar &amp; Mrs. Krishna Kumari</span>
+                    <span class="fam-name" data-trn="s-ua3">Mr. Narendra Kumar &amp; Mrs. Krishna Kumari</span>
                     <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
                   </div>
                 </li>
@@ -1215,10 +1204,8 @@
       <p data-trn="gal-share-desc">Snapped something good? Add your own photos, or download the professional shots once they're ready — both linked to our shared Google Drive.</p>
       <div class="gallery-btn-row">
         
-        <!-- PUT YOUR GOOGLE FORM LINK IN THE HREF BELOW -->
-        <a class="gallery-btn solid" href="https://forms.gle/THs3UzBgXBKbeeCm6" id="driveUploadLink" target="_blank" rel="noopener" data-trn="gal-btn-up">Upload Wedding Photos ✈</a>
+        <a class="gallery-btn solid" href="https://forms.gle/MGRBwjKCNwfcmwUe9" id="driveUploadLink" target="_blank" rel="noopener" data-trn="gal-btn-up">Upload Wedding Photos ✈</a>
         
-        <!-- THIS LINK IS PERFECT AS IS -->
         <a class="gallery-btn" href="https://drive.google.com/drive/folders/1npbkW1hdeKDhB4dZ5eaeowTvJjcYWDRs?usp=share_link" id="driveDownloadLink" target="_blank" rel="noopener" data-trn="gal-btn-dl">Download Wedding Photos ↓</a>
       
       </div>
@@ -1310,32 +1297,26 @@
   
   <!-- HOLI BACKGROUND PLANES -->
   <div class="holi-container">
-    <!-- Plane 1 (Left to Right, Large, Slow) -->
     <div class="holi-wrap lr" style="top: 15%; animation-duration: 16s; animation-delay: 0s; --start-y: 10vh; --end-y: -20vh; --rot: -12deg; --scale: 1; --max-op: 0.85;">
       <div class="holi-trail"></div>
       <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
     </div>
-    <!-- Plane 2 (Right to Left, Medium, Fast) -->
     <div class="holi-wrap rl" style="top: 30%; animation-duration: 12s; animation-delay: 2s; --start-y: 0vh; --end-y: 15vh; --rot: 8deg; --scale: 0.7; --max-op: 0.7;">
       <div class="holi-trail"></div>
       <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(-90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
     </div>
-    <!-- Plane 3 (Left to Right, Small, Delay) -->
     <div class="holi-wrap lr" style="top: 55%; animation-duration: 18s; animation-delay: 5s; --start-y: -10vh; --end-y: 5vh; --rot: 5deg; --scale: 0.5; --max-op: 0.6;">
       <div class="holi-trail"></div>
       <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
     </div>
-    <!-- Plane 4 (Right to Left, High angle) -->
     <div class="holi-wrap rl" style="top: 75%; animation-duration: 14s; animation-delay: 1s; --start-y: 15vh; --end-y: -15vh; --rot: -12deg; --scale: 0.9; --max-op: 0.8;">
       <div class="holi-trail"></div>
       <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(-90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
     </div>
-    <!-- Plane 5 (Left to Right, Very Slow) -->
     <div class="holi-wrap lr" style="top: 85%; animation-duration: 24s; animation-delay: 7s; --start-y: 5vh; --end-y: -5vh; --rot: 0deg; --scale: 0.6; --max-op: 0.5;">
       <div class="holi-trail"></div>
       <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
     </div>
-    <!-- Plane 6 (Right to Left, Very Top) -->
     <div class="holi-wrap rl" style="top: 5%; animation-duration: 19s; animation-delay: 9s; --start-y: -5vh; --end-y: 10vh; --rot: 5deg; --scale: 0.75; --max-op: 0.75;">
       <div class="holi-trail"></div>
       <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(-90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
@@ -1422,6 +1403,9 @@
       "s-md": "Mr. Dinesh Chandra Sharma & Mrs. Beena Devi",
       "g-ggp": "Late Sahab Singh & Late Hoshiyari Devi",
       "s-gp": "Late Shiv Charan Sharma & Late Shanti Devi",
+      "s-ua1": "Mr. Rajesh Kumar & Mrs. Dayavati devi",
+      "s-ua2": "Late Jayprakash Sharma & Mrs. Shakuntala Devi",
+      "s-ua3": "Mr. Narendra Kumar & Mrs. Krishna Kumari",
       "g-gp": "Dr. Thakur Das & Late Munni Devi",
       "rel-cgp": "Cousin Grand Father and Cousin Grand Mother",
       "g-cgp1": "Mr. Rambhul Rajora & Mrs. Kasturi Devi",
@@ -1480,7 +1464,7 @@
       "cd-days": "दिन", "cd-hours": "घंटे", "cd-mins": "मिनट", "cd-secs": "सेकंड",
       "story-eyebrow": "हमारी कहानी",
       "story-title": "विंडो सीट जिसने सब कुछ बदल दिया",
-      "story-p1": "गौरव ने जानबूझकर यूके जाने वाली आधी रात की फ्लाइट में विंडो सीट चुनी थी — 13 सितंबर 2023, समय 00:15, जब दोनों ही पढ़ाई के लिए पहली बार देश छोड़ रहे थे। सलोनी ने कोई सीट नहीं चुनी थी, उन्हें बस गौरव के ठीक बगल वाली सीट मिल गई। यह पहली बार थाপ্রবাসী भारतीय नागरिक के रूप में उन्होंने अपनी पहचान बनाई है और उनके पास उस पल की एक तस्वीर भी है।",
+      "story-p1": "गौरव ने जानबूझकर यूके जाने वाली आधी रात की फ्लाइट में विंडो सीट चुनी थी — 13 सितंबर 2023, समय 00:15, जब दोनों ही पढ़ाई के लिए पहली बार देश छोड़ रहे थे। सलोनी ने कोई सीट नहीं चुनी थी, उन्हें बस गौरव के ठीक बगल वाली सीट मिल गई। यह पहली बार था जब गौरव ने उन्हें देखा, और उनके पास उस पल की एक तस्वीर भी है।",
       "story-p2": "यह वाकई जादुई था। बादलों के बीच कहीं, ऐसा लगा जैसे पीछे एक हाथ छूट रहा हो और आगे बढ़ने के लिए कोई दूसरा प्यारा हाथ मिल गया हो — एक खूबसूरत सफर की शुरुआत जिसकी उम्मीद दोनों में से किसी को भी नहीं थी।",
       "story-p3": "हम यूके में अलग-अलग यूनिवर्सिटी में गए लेकिन हमेशा साथ रहे — पढ़ाई के सेशन्स, शॉपिंग ट्रिप्स और सब कुछ साथ किया। उस फ्लाइट के एक महीने के भीतर ही गौरव ने प्रपोज़ किया और उन्होंने हाँ कह दिया। हम अपने परिवारों में विदेश जाने वाले पहले बच्चे हैं, और तब से हर 'पहली' चीज़ का सामना साथ मिलकर कर रहे हैं।",
       "m1-lbl": "हम मिले, 35,000 फीट ऊपर", "m2-lbl": "हमारी सगाई", "m3-lbl": "हमारी शादी",
@@ -1513,6 +1497,9 @@
       "side-saloni": "सलोनी का परिवार", "side-gaurav": "गौरव का परिवार",
       "s-md": "श्री दिनेश चंद्र शर्मा एवं श्रीमती बीना देवी",
       "s-gp": "स्वर्गीय शिव चरण शर्मा एवं स्वर्गीय शांति देवी",
+      "s-ua1": "श्री राजेश कुमार एवं श्रीमती दयावती देवी",
+      "s-ua2": "स्वर्गीय जयप्रकाश शर्मा एवं श्रीमती शकुंतला देवी",
+      "s-ua3": "श्री नरेंद्र कुमार एवं श्रीमती कृष्णा कुमारी",
       "g-ggp": "स्वर्गीय साहब सिंह एवं स्वर्गीय होशियारी देवी",
       "g-gp": "डॉ. ठाकुर दास एवं स्वर्गीय मुन्नी देवी",
       "g-cgp1": "श्री रामभूल राजोरा एवं श्रीमती कस्तूरी देवी",
@@ -1604,6 +1591,9 @@
       "side-saloni": "Strona Saloni", "side-gaurav": "Strona Gaurava",
       "s-md": "Pan Dinesh Chandra Sharma & Pani Beena Devi",
       "s-gp": "Śp. Shiv Charan Sharma & Śp. Shanti Devi",
+      "s-ua1": "Pan Rajesh Kumar & Pani Dayavati devi",
+      "s-ua2": "Śp. Jayprakash Sharma & Pani Shakuntala Devi",
+      "s-ua3": "Pan Narendra Kumar & Pani Krishna Kumari",
       "g-ggp": "Śp. Sahab Singh & Śp. Hoshiyari Devi",
       "g-gp": "Dr Thakur Das & Śp. Munni Devi",
       "g-cgp1": "Pan Rambhul Rajora & Pani Kasturi Devi",
