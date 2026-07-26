@@ -149,13 +149,13 @@
   }
 
   /* ---------- Envelope Flight Path: India ✈ UK ---------- */
-  .invite-flight{ position:relative; width:min(90vw, 460px); margin:0 auto 18px; height:70px; }
+  .invite-flight{ position:relative; width:min(90vw, 460px); margin:0 auto 18px; height:80px; }
   .invite-flight svg{ width:100%; height:100%; overflow:visible; }
   .flight-dash{ stroke-dasharray:6 8; stroke:rgba(240,217,174,0.55); fill:none; stroke-width:2; }
-  .flight-flag{ font-size:1.6rem; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4)); }
+  .flight-flag{ font-size:3.0rem; filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4)); }
   .invite-plane{
-    position:absolute; top:0; left:0; font-size:1.4rem; color:#f0d9ae;
-    offset-path:path('M28 54 C120 4, 280 4, 372 40');
+    position:absolute; top:0; left:0; font-size:3.0rem; color:#f0d9ae;
+    offset-path:path('M28 54 C120 4, 280 4, 372 44');
     offset-rotate:auto; animation:flightMove 5s ease-in-out infinite;
     filter:drop-shadow(0 3px 6px rgba(0,0,0,0.45));
   }
@@ -582,6 +582,46 @@
     .excite-row button { width: 40px; height: 40px; font-size: 1rem; }
   }
 
+  /* ---------- HOLI FESTIVAL PLANES ---------- */
+  .holi-container { 
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; 
+  }
+  .ending-quote, .ending-signoff, .ending-plane { 
+    position: relative; z-index: 3; 
+  }
+  .holi-wrap { 
+    position: absolute; display: flex; align-items: center; opacity: 0; will-change: transform, opacity; 
+  }
+  .holi-trail { 
+    width: 160px; height: 8px; border-radius: 8px; filter: blur(5px); opacity: 0.65; 
+  }
+  
+  /* Left to Right Planes */
+  .holi-wrap.lr { animation: flyHoliLR linear infinite; left: 0; }
+  .holi-wrap.lr .holi-trail { 
+    background: linear-gradient(to right, transparent, rgba(0,204,153,0.8), rgba(255,204,0,0.8), rgba(255,0,102,0.8)); 
+    margin-right: -12px; 
+  }
+  @keyframes flyHoliLR {
+    0% { transform: translate(-30vw, var(--start-y, 5vh)) rotate(var(--rot, -8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+    10% { opacity: var(--max-op, 1); }
+    90% { opacity: var(--max-op, 1); }
+    100% { transform: translate(120vw, var(--end-y, -15vh)) rotate(var(--rot, -8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+  }
+  
+  /* Right to Left Planes */
+  .holi-wrap.rl { animation: flyHoliRL linear infinite; right: 0; flex-direction: row-reverse; }
+  .holi-wrap.rl .holi-trail { 
+    background: linear-gradient(to left, transparent, rgba(0,204,153,0.8), rgba(255,204,0,0.8), rgba(255,0,102,0.8)); 
+    margin-left: -12px; 
+  }
+  @keyframes flyHoliRL {
+    0% { transform: translate(30vw, var(--start-y, 5vh)) rotate(var(--rot, 8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+    10% { opacity: var(--max-op, 1); }
+    90% { opacity: var(--max-op, 1); }
+    100% { transform: translate(-120vw, var(--end-y, -15vh)) rotate(var(--rot, 8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+  }
+
   /* ---------- ENDING ---------- */
   .ending{ position:relative; padding:150px 24px 120px; text-align:center; background:linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%); overflow:hidden; }
   .ending-quote{ max-width:640px; margin:0 auto; }
@@ -623,14 +663,37 @@
   <div class="gold-particle" style="left:92%; animation-duration:7.2s;animation-delay:1.2s;"></div>
 
   <div class="envelope-wrap">
+    
+    <!-- SINGLE, ALIGNED FLIGHT PATH -->
     <div class="invite-flight" aria-hidden="true">
-      <svg viewBox="0 0 400 70">
-        <path class="flight-dash" d="M28 54 C120 4, 280 4, 372 40"/>
+      <svg viewBox="0 0 400 70" style="width:100%; height:100%; overflow:visible;">
+        <!-- Symmetrical Curved Path -->
+        <path id="flightPath" class="flight-dash" d="M 40 50 Q 200 -10 360 50"/>
+        
+        <!-- Flags perfectly aligned on the exact same horizontal axis -->
+        <text x="15" y="50" font-size="45" dominant-baseline="central" text-anchor="middle" style="filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4));">🇮🇳</text>
+        <text x="385" y="50" font-size="45" dominant-baseline="central" text-anchor="middle" style="filter:drop-shadow(0 3px 6px rgba(0,0,0,0.4));">🇬🇧</text>
+        
+        <!-- Plane embedded IN the SVG so it physically cannot leave the line -->
+        <g style="opacity:0;">
+          <text font-size="50" fill="#f0d9ae" dominant-baseline="central" text-anchor="middle" style="filter:drop-shadow(0 3px 6px rgba(0,0,0,0.45));">✈</text>
+          
+          <animateMotion 
+            dur="5s" 
+            repeatCount="indefinite" 
+            rotate="auto" 
+            calcMode="spline" 
+            keyTimes="0;1" 
+            keySplines="0.42 0 0.58 1">
+            <mpath href="#flightPath"/>
+          </animateMotion>
+          
+          <!-- Fade in and out matching the CSS animation -->
+          <animate attributeName="opacity" values="0; 1; 1; 0" keyTimes="0; 0.08; 0.92; 1" dur="5s" repeatCount="indefinite"/>
+        </g>
       </svg>
-      <span class="flight-flag" style="position:absolute; left:0; top:34px;">🇮🇳</span>
-      <span class="flight-flag" style="position:absolute; right:0; top:14px;">🇬🇧</span>
-      <span class="invite-plane">✈</span>
     </div>
+
     <div class="envelope">
       <div class="envelope-flap"></div>
       <div class="seal" id="sealBtn" role="button" aria-label="Break the seal to open your invitation">
@@ -818,12 +881,15 @@
 
     <div class="venue-grid">
       <div class="venue-card main reveal">
-        <div>
-          <span class="v-eyebrow" style="font-size:0.58rem; letter-spacing:0.14em;" data-trn="vcard1-eyebrow">The Wedding · 04 March 2027</span>
+        <!-- Left Column -->
+        <div class="venue-hotel">
+          <span class="v-eyebrow" data-trn="vcard1-eyebrow">The Wedding · 04 March 2027</span>
           <h4 data-trn="vcard1-title">Hotel Lehem, Dehradun</h4>
           <p data-trn="vcard1-addr">Near Uttaranchal PG College, Transport Nagar, Chandrabani, Dehradun, Sewla Khurd, Uttarakhand 248001, India.</p>
           <a class="vlink" data-trn="gmaps-link" href="https://www.google.com/maps/place/Le+hem+Hotel/@30.2885586,77.991436,956m/data=!3m2!1e3!4b1!4m9!3m8!1s0x39092b42ad908557:0x4fd19295c99ecac!5m2!4m1!1i2!8m2!3d30.2885586!4d77.9940109!16s%2Fg%2F11ygqp_h9y" target="_blank" rel="noopener">View on Google Maps ↗</a>
         </div>
+        
+        <!-- Right Column -->
         <div class="venue-hotel">
           <span class="v-eyebrow" data-trn="vcard1-stay-eyebrow">Stay With Us</span>
           <h4 data-trn="vcard1-stay-title">Hotel Lehem</h4>
@@ -931,125 +997,195 @@
     </div>
 
     <div class="party-groups">
+      
+      <!-- SALONI'S SIDE (Flattened & Simplified) -->
       <div class="party-group reveal">
         <h3 data-trn="side-saloni">Saloni's Side</h3>
         <div class="fam-wrap">
           <ul class="tree">
             <li>
+              <!-- GENERATION 1 -->
               <div class="fam-box couple">
                 <span class="fam-name" data-trn="s-gp">Late Shiv Charan Sharma &amp; Late Shanti Devi</span>
                 <span class="fam-rel" data-trn="rel-gp">Grand Father &amp; Grand Mother</span>
               </div>
+              
               <div class="tree-stem"></div>
+              
+              <!-- GENERATION 2 -->
               <ul class="tree-cluster">
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name">Narendra Sharma &amp; Krishna</span>
+                    <span class="fam-name" data-trn="s-ua">Mr. Rajesh Kumar &amp; Mrs. Dayavati devi</span>
                     <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
                   </div>
                 </li>
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name">Narendra Sharma &amp; Krishna</span>
+                    <span class="fam-name" data-trn="s-ua">Late Ramesh Sharma &amp; Mrs. Shakuntala Devi</span>
                     <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
                   </div>
                 </li>
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name">Narendra Sharma &amp; Krishna</span>
+                    <span class="fam-name" data-trn="s-ua">Mr. Narendra Kumar &amp; Mrs. Krishna Kumari</span>
                     <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
                   </div>
                 </li>
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name">Narendra Sharma &amp; Krishna</span>
-                    <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
+                    <span class="fam-name" data-trn="s-md">Mr. Dinesh Chandra Sharma &amp; Mrs. Beena Devi</span>
+                    <span class="fam-rel" data-trn="rel-md">Mother and Father</span>
                   </div>
-                </li>
-                <li class="has-sub">
-                  <div class="fam-box couple">
-                    <span class="fam-name">Narendra Sharma &amp; Krishna</span>
-                    <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
-                  </div>
-                  <div class="tree-stem"></div>
-                  <ul class="tree-cluster">
-                    <li>
-                      <div class="fam-box couple">
-                        <span class="fam-name">Narendra Sharma &amp; Krishna</span>
-                        <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="fam-box couple">
-                        <span class="fam-name">Narendra Sharma &amp; Krishna</span>
-                        <span class="fam-rel" data-trn="rel-ua">Uncle ji and Aunty Ji</span>
-                      </div>
-                    </li>
-                  </ul>
                 </li>
               </ul>
+
+              <div class="tree-stem"></div>
+
+              <!-- GENERATION 3 -->
+              <ul class="tree-cluster">
+                <!-- Sadu Bhai & Sali -->
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="s-sali-sadu">Mr. Nikhil Sharma &amp; Mrs. Shivani Sharma</span>
+                    <span class="fam-rel" data-trn="rel-sali-sadu">Brother-in-Law &amp; Sister-in-Law</span>
+                  </div>
+                </li>
+                
+                <!-- Sala -->
+                <li>
+                  <div class="fam-box">
+                    <span class="fam-name" data-trn="s-sala">Mr. Saurabh Sharma</span>
+                    <span class="fam-rel" data-trn="rel-sala">Brother-in-Law</span>
+                  </div>
+                </li>
+              </ul>
+
             </li>
           </ul>
         </div>
       </div>
 
+      <!-- GAURAV'S SIDE (Flattened & Simplified) -->
       <div class="party-group reveal">
         <h3 data-trn="side-gaurav">Gaurav's Side</h3>
         <div class="fam-wrap">
           <ul class="tree">
             <li>
+              <!-- GENERATION 1 -->
               <div class="fam-box couple">
-                <span class="fam-name" data-trn="g-gp">Dr. Thakur Das &amp; Late Munni Devi</span>
-                <span class="fam-rel" data-trn="rel-gpfm">Grandfather &amp; Grandmother</span>
+                <span class="fam-name" data-trn="g-ggp">Late Sahab Singh &amp; Late Hoshiyari Devi</span>
+                <span class="fam-rel" data-trn="rel-ggp">Great Grand Father &amp; Great Grand Mother</span>
               </div>
-              <ul>
+              
+              <div class="tree-stem"></div>
+              
+              <!-- GENERATION 2 -->
+              <ul class="tree-cluster">
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name" data-trn="g-parents">Mr. Naresh Rajora &amp; Mrs. Rukmani Rajora</span>
-                    <span class="fam-rel" data-trn="rel-dm">Dad &amp; Mom</span>
+                    <span class="fam-name" data-trn="g-gp">Dr. Thakur Das &amp; Late Munni Devi</span>
+                    <span class="fam-rel" data-trn="rel-gpm">Grand Father and Grand Mother</span>
                   </div>
-                  <ul>
-                    <li>
-                      <div class="fam-box couple">
-                        <span class="fam-name" data-trn="g-bro">Himanshu Rajora &amp; Shivangi Rajora</span>
-                        <span class="fam-rel" data-trn="rel-bsl">Brother &amp; Sister-in-law</span>
-                      </div>
-                      <ul>
-                        <li>
-                          <div class="fam-box">
-                            <span class="fam-name" data-trn="g-nephew">Naksh Rajora</span>
-                            <span class="fam-rel" data-trn="rel-nephew">Nephew</span>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-                  </ul>
                 </li>
                 <li>
                   <div class="fam-box couple">
-                    <span class="fam-name" data-trn="g-uncle">Dr. Narendra Rajora &amp; Dr. Sarika Rajora</span>
-                    <span class="fam-rel" data-trn="rel-cc">Chacha Ji &amp; Chachi Ji</span>
+                    <span class="fam-name" data-trn="g-cgp1">Mr. Rambhul Rajora &amp; Mrs. Kasturi Devi</span>
+                    <span class="fam-rel" data-trn="rel-cgp">Cousin Grand Father and Cousin Grand Mother</span>
                   </div>
-                  <ul>
-                    <li>
-                      <div class="fam-box">
-                        <span class="fam-name" data-trn="g-cous1">Peehu Rajora</span>
-                        <span class="fam-rel" data-trn="rel-cs">Cousin Sister</span>
-                      </div>
-                    </li>
-                    <li>
-                      <div class="fam-box">
-                        <span class="fam-name" data-trn="g-cous2">Vedant Rajora</span>
-                        <span class="fam-rel" data-trn="rel-cb">Cousin Brother</span>
-                      </div>
-                    </li>
-                  </ul>
+                </li>
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-cgp2">Mr. Mahindar Rajora &amp; Late Genda Devi</span>
+                    <span class="fam-rel" data-trn="rel-cgp">Cousin Grand Father and Cousin Grand Mother</span>
+                  </div>
                 </li>
               </ul>
+
+              <div class="tree-stem"></div>
+
+              <!-- GENERATION 3 (3 Top, 3 Bottom) -->
+              <ul class="tree-cluster" style="max-width: 820px; margin-top: 30px; margin-left: auto; margin-right: auto;">
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-md">Mr. Naresh Rajora &amp; Mrs. Rukami Rajora</span>
+                    <span class="fam-rel" data-trn="rel-md">Mother and Father</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-ua2">Dr. Narendra Rajora &amp; Dr. Sarika Rajora</span>
+                    <span class="fam-rel" data-trn="rel-ua-g">Uncle ji and Aunty Ji</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-ua3">Mr. Neeraj Rajora &amp; Mrs. Nitesh Rajora</span>
+                    <span class="fam-rel" data-trn="rel-ua-g">Uncle ji and Aunty Ji</span>
+                  </div>
+                </li>
+                
+                <!-- Invisible Line Break to force 3 exactly per row -->
+                <li style="flex-basis: 100%; height: 0; padding: 0; margin: 0; border: none;"></li>
+                
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-ua4">Mr. Rajeev Rajora &amp; Mrs. Shalu Rajora</span>
+                    <span class="fam-rel" data-trn="rel-ua-g">Uncle ji and Aunty Ji</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-ua5">Mr. Dheeraj Rajora &amp; Mrs. Babli Rajora</span>
+                    <span class="fam-rel" data-trn="rel-ua-g">Uncle ji and Aunty Ji</span>
+                  </div>
+                </li>
+                <li>
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-ua6">Mr. Vipin Rajora &amp; Mrs. Preeti Rajora</span>
+                    <span class="fam-rel" data-trn="rel-ua-g">Uncle ji and Aunty Ji</span>
+                  </div>
+                </li>
+              </ul>
+
+              <div class="tree-stem"></div>
+
+              <!-- GENERATION 4 & 5 (Tighter Spacing) -->
+              <ul class="tree-cluster" style="gap: 20px;">
+                <!-- Brother & Sister-in-law (with Nephew below) -->
+                <li class="has-sub" style="flex: 0 0 auto;">
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-bro">Mr. Himanshu Rajora &amp; Mrs. Shivangi Rajora</span>
+                    <span class="fam-rel" data-trn="rel-bsl">Brother and Sister-in-law</span>
+                  </div>
+                  
+                  <div class="tree-stem" style="height: 18px;"></div>
+                  
+                  <!-- GENERATION 5 (Nephew) -->
+                  <ul class="tree-cluster" style="margin-top: 15px; padding-top: 15px;">
+                    <li>
+                      <div class="fam-box">
+                        <span class="fam-name" data-trn="g-nephew">Master Naksh Rajora</span>
+                        <span class="fam-rel" data-trn="rel-nephew">Nephew</span>
+                      </div>
+                    </li>
+                  </ul>
+                </li>
+                
+                <!-- Cousins -->
+                <li style="flex: 0 0 auto;">
+                  <div class="fam-box couple">
+                    <span class="fam-name" data-trn="g-cous1&2">Mr. Vedant Rajora &amp; Ms. Peehu Rajora</span>
+                    <span class="fam-rel" data-trn="rel-cbcs">Cousin Brother and Cousin Sister</span>
+                  </div>
+                </li>
+              </ul>
+
             </li>
           </ul>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -1078,10 +1214,15 @@
       <h3 data-trn="gal-share-title">Share the Journey</h3>
       <p data-trn="gal-share-desc">Snapped something good? Add your own photos, or download the professional shots once they're ready — both linked to our shared Google Drive.</p>
       <div class="gallery-btn-row">
-        <a class="gallery-btn solid" href="https://drive.google.com/drive/folders/1_7VkDl_gdy3EUTxU2d2ChK0DsAWx_ZhT?usp=share_link" id="driveUploadLink" target="_blank" rel="noopener" data-trn="gal-btn-up">Upload Wedding Photos ✈</a>
+        
+        <!-- PUT YOUR GOOGLE FORM LINK IN THE HREF BELOW -->
+        <a class="gallery-btn solid" href="https://forms.gle/THs3UzBgXBKbeeCm6" id="driveUploadLink" target="_blank" rel="noopener" data-trn="gal-btn-up">Upload Wedding Photos ✈</a>
+        
+        <!-- THIS LINK IS PERFECT AS IS -->
         <a class="gallery-btn" href="https://drive.google.com/drive/folders/1npbkW1hdeKDhB4dZ5eaeowTvJjcYWDRs?usp=share_link" id="driveDownloadLink" target="_blank" rel="noopener" data-trn="gal-btn-dl">Download Wedding Photos ↓</a>
+      
       </div>
-      <p style="margin-top:18px; font-size:0.7rem; color:var(--ink-soft); font-style:italic;" data-trn="gal-dev-note">— swap both hrefs above for your shared Google Drive folder links: one for guest uploads, one for the photographer's final gallery —</p>
+      <p style="margin-top:18px; font-size:0.7rem; color:var(--ink-soft); font-style:italic;">— Thank You all for making our special day even more memorable —</p>
     </div>
   </div>
 </section>
@@ -1166,12 +1307,49 @@
 
 <!-- ENDING -->
 <section class="ending" id="ending">
+  
+  <!-- HOLI BACKGROUND PLANES -->
+  <div class="holi-container">
+    <!-- Plane 1 (Left to Right, Large, Slow) -->
+    <div class="holi-wrap lr" style="top: 15%; animation-duration: 16s; animation-delay: 0s; --start-y: 10vh; --end-y: -20vh; --rot: -12deg; --scale: 1; --max-op: 0.85;">
+      <div class="holi-trail"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    </div>
+    <!-- Plane 2 (Right to Left, Medium, Fast) -->
+    <div class="holi-wrap rl" style="top: 30%; animation-duration: 12s; animation-delay: 2s; --start-y: 0vh; --end-y: 15vh; --rot: 8deg; --scale: 0.7; --max-op: 0.7;">
+      <div class="holi-trail"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(-90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    </div>
+    <!-- Plane 3 (Left to Right, Small, Delay) -->
+    <div class="holi-wrap lr" style="top: 55%; animation-duration: 18s; animation-delay: 5s; --start-y: -10vh; --end-y: 5vh; --rot: 5deg; --scale: 0.5; --max-op: 0.6;">
+      <div class="holi-trail"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    </div>
+    <!-- Plane 4 (Right to Left, High angle) -->
+    <div class="holi-wrap rl" style="top: 75%; animation-duration: 14s; animation-delay: 1s; --start-y: 15vh; --end-y: -15vh; --rot: -12deg; --scale: 0.9; --max-op: 0.8;">
+      <div class="holi-trail"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(-90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    </div>
+    <!-- Plane 5 (Left to Right, Very Slow) -->
+    <div class="holi-wrap lr" style="top: 85%; animation-duration: 24s; animation-delay: 7s; --start-y: 5vh; --end-y: -5vh; --rot: 0deg; --scale: 0.6; --max-op: 0.5;">
+      <div class="holi-trail"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    </div>
+    <!-- Plane 6 (Right to Left, Very Top) -->
+    <div class="holi-wrap rl" style="top: 5%; animation-duration: 19s; animation-delay: 9s; --start-y: -5vh; --end-y: 10vh; --rot: 5deg; --scale: 0.75; --max-op: 0.75;">
+      <div class="holi-trail"></div>
+      <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(-90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+    </div>
+  </div>
+
+  <!-- ORIGINAL FLOATING FLOWERS -->
   <div class="float-flower" style="width:46px; height:46px; top:8%; left:8%; animation-duration:8.5s;">
     <svg viewBox="0 0 64 64"><g fill="var(--blush-pale)" opacity="0.7"><circle cx="32" cy="18" r="9"/><circle cx="18" cy="32" r="9"/><circle cx="46" cy="32" r="9"/><circle cx="32" cy="46" r="9"/></g><circle cx="32" cy="32" r="7" fill="var(--gold-soft)"/></svg>
   </div>
   <div class="float-flower" style="width:38px; height:38px; top:14%; right:10%; animation-duration:7s; animation-delay:1s;">
     <svg viewBox="0 0 64 64"><g fill="var(--gold-soft)" opacity="0.7"><circle cx="32" cy="18" r="9"/><circle cx="18" cy="32" r="9"/><circle cx="46" cy="32" r="9"/><circle cx="32" cy="46" r="9"/></g><circle cx="32" cy="32" r="7" fill="var(--blush-pale)"/></svg>
   </div>
+  
   <div class="ending-quote reveal">
     <p class="line1" data-trn="end-q1">Every love story is beautiful,<br>but ours began 35,000 feet above the ground.</p>
     <p class="line2" data-trn="end-q2">Thank you for becoming part of our forever.</p>
@@ -1180,6 +1358,8 @@
     <div class="with-love" data-trn="end-love">With Love</div>
     <div class="names shine-text">Gaurav ❤ Saloni</div>
   </div>
+  
+  <!-- RSVP TAKEOFF PLANE -->
   <div class="ending-plane" id="endingPlane">✈</div>
 </section>
 
@@ -1239,16 +1419,32 @@
       "party-eyebrow": "With Love & Blessings", "party-title": "Our Families",
       "party-subtitle": "With love and blessings from both sides of the family.",
       "side-saloni": "Saloni's Side", "side-gaurav": "Gaurav's Side",
+      "s-md": "Mr. Dinesh Chandra Sharma & Mrs. Beena Devi",
+      "g-ggp": "Late Sahab Singh & Late Hoshiyari Devi",
       "s-gp": "Late Shiv Charan Sharma & Late Shanti Devi",
       "g-gp": "Dr. Thakur Das & Late Munni Devi",
+      "rel-cgp": "Cousin Grand Father and Cousin Grand Mother",
+      "g-cgp1": "Mr. Rambhul Rajora & Mrs. Kasturi Devi",
+      "g-cgp2": "Mr. Mahindar Rajora & Late Genda Devi",
+      "g-md": "Mr. Naresh Rajora & Mrs. Rukami Rajora",
+      "g-ua2": "Dr. Narendra Rajora & Dr. Sarika Rajora",
+      "g-ua3": "Mr. Neeraj Rajora & Mrs. Nitesh Rajora",
+      "g-ua4": "Mr. Rajeev Rajora & Mrs. Shalu Rajora",
+      "g-ua5": "Mr. Dheeraj Rajora & Mrs. Babli Rajora",
+      "g-ua6": "Mr. Vipin Rajora & Mrs. Preeti Rajora",
       "g-parents": "Mr. Naresh Rajora & Mrs. Rukmani Rajora",
-      "g-bro": "Himanshu Rajora & Shivangi Rajora",
-      "g-nephew": "Naksh Rajora",
+      "g-bro": "Mr. Himanshu Rajora & Mrs. Shivangi Rajora",
+      "g-nephew": "Master Naksh Rajora",
       "g-uncle": "Dr. Narendra Rajora & Dr. Sarika Rajora",
-      "g-cous1": "Peehu Rajora", "g-cous2": "Vedant Rajora",
+      "g-cous1&2": "Mr. Vedant Rajora & Ms. Peehu Rajora",
+      "s-sali-sadu": "Mr. Nikhil Sharma & Mrs. Shivani Sharma",
+      "s-sala": "Mr. Saurabh Sharma",
+      "rel-ggp": "Great Grand Father & Great Grand Mother",
       "rel-gp": "Grand Father & Grand Mother", "rel-gpfm": "Grandfather & Grandmother",
-      "rel-ua": "Uncle ji and Aunty Ji", "rel-dm": "Dad & Mom", "rel-bsl": "Brother & Sister-in-law",
-      "rel-nephew": "Nephew", "rel-cc": "Chacha Ji & Chachi Ji", "rel-cs": "Cousin Sister", "rel-cb": "Cousin Brother",
+      "rel-gpm": "Grand Father and Grand Mother", "rel-md": "Mother and Father",
+      "rel-ua": "Uncle ji and Aunty Ji", "rel-ua-g": "Uncle ji and Aunty Ji", "rel-dm": "Dad & Mom", "rel-bsl": "Brother & Sister-in-law",
+      "rel-nephew": "Nephew", "rel-cc": "Chacha Ji & Chachi Ji", "rel-cbcs": "Cousin Brother & Cousin Sister",
+      "rel-sali-sadu": "Brother-in-Law & Sister-in-Law", "rel-sala": "Brother-in-Law",
       "gal-eyebrow": "A Few Favourites", "gal-title": "Us, Along the Way",
       "gal-share-title": "Share the Journey", "gal-share-desc": "Snapped something good? Add your own photos, or download the professional shots once they're ready — both linked to our shared Google Drive.",
       "gal-btn-up": "Upload Wedding Photos ✈", "gal-btn-dl": "Download Wedding Photos ↓",
@@ -1284,7 +1480,7 @@
       "cd-days": "दिन", "cd-hours": "घंटे", "cd-mins": "मिनट", "cd-secs": "सेकंड",
       "story-eyebrow": "हमारी कहानी",
       "story-title": "विंडो सीट जिसने सब कुछ बदल दिया",
-      "story-p1": "गौरव ने जानबूझकर यूके जाने वाली आधी रात की फ्लाइट में विंडो सीट चुनी थी — 13 सितंबर 2023, समय 00:15, जब दोनों ही पढ़ाई के लिए पहली बार देश छोड़ रहे थे। सलोनी ने कोई सीट नहीं चुनी थी, उन्हें बस गौरव के ठीक बगल वाली सीट मिल गई। यह पहली बार था जब गौरव ने उन्हें देखा, और उनके पास उस पल की एक तस्वीर भी है।",
+      "story-p1": "गौरव ने जानबूझकर यूके जाने वाली आधी रात की फ्लाइट में विंडो सीट चुनी थी — 13 सितंबर 2023, समय 00:15, जब दोनों ही पढ़ाई के लिए पहली बार देश छोड़ रहे थे। सलोनी ने कोई सीट नहीं चुनी थी, उन्हें बस गौरव के ठीक बगल वाली सीट मिल गई। यह पहली बार थाপ্রবাসী भारतीय नागरिक के रूप में उन्होंने अपनी पहचान बनाई है और उनके पास उस पल की एक तस्वीर भी है।",
       "story-p2": "यह वाकई जादुई था। बादलों के बीच कहीं, ऐसा लगा जैसे पीछे एक हाथ छूट रहा हो और आगे बढ़ने के लिए कोई दूसरा प्यारा हाथ मिल गया हो — एक खूबसूरत सफर की शुरुआत जिसकी उम्मीद दोनों में से किसी को भी नहीं थी।",
       "story-p3": "हम यूके में अलग-अलग यूनिवर्सिटी में गए लेकिन हमेशा साथ रहे — पढ़ाई के सेशन्स, शॉपिंग ट्रिप्स और सब कुछ साथ किया। उस फ्लाइट के एक महीने के भीतर ही गौरव ने प्रपोज़ किया और उन्होंने हाँ कह दिया। हम अपने परिवारों में विदेश जाने वाले पहले बच्चे हैं, और तब से हर 'पहली' चीज़ का सामना साथ मिलकर कर रहे हैं।",
       "m1-lbl": "हम मिले, 35,000 फीट ऊपर", "m2-lbl": "हमारी सगाई", "m3-lbl": "हमारी शादी",
@@ -1315,22 +1511,37 @@
       "party-eyebrow": "प्रेम और आशीर्वाद के साथ", "party-title": "हमारे परिवार",
       "party-subtitle": "दोनों परिवारों की ओर से ढेर सारे प्यार और आशीर्वाद के साथ।",
       "side-saloni": "सलोनी का परिवार", "side-gaurav": "गौरव का परिवार",
+      "s-md": "श्री दिनेश चंद्र शर्मा एवं श्रीमती बीना देवी",
       "s-gp": "स्वर्गीय शिव चरण शर्मा एवं स्वर्गीय शांति देवी",
+      "g-ggp": "स्वर्गीय साहब सिंह एवं स्वर्गीय होशियारी देवी",
       "g-gp": "डॉ. ठाकुर दास एवं स्वर्गीय मुन्नी देवी",
+      "g-cgp1": "श्री रामभूल राजोरा एवं श्रीमती कस्तूरी देवी",
+      "g-cgp2": "श्री महिंदर राजोरा एवं स्वर्गीय गेंदा देवी",
+      "g-md": "श्री नरेश राजोरा एवं श्रीमती रुकामी राजोरा",
+      "g-ua2": "डॉ. नरेंद्र राजोरा एवं डॉ. सारिका राजोरा",
+      "g-ua3": "श्री नीरज राजोरा एवं श्रीमती नितेश राजोरा",
+      "g-ua4": "श्री राजीव राजोरा एवं श्रीमती शालू राजोरा",
+      "g-ua5": "श्री धीरज राजोरा एवं श्रीमती बबली राजोरा",
+      "g-ua6": "श्री विपिन राजोरा एवं श्रीमती प्रीति राजोरा",
       "g-parents": "श्री नरेश राजोरा एवं श्रीमती रुक्मणी राजोरा",
       "g-bro": "हिमांशु राजोरा एवं शिवांगी राजोरा",
-      "g-nephew": "नक्ष राजोरा",
+      "g-nephew": "मास्टर नक्ष राजोरा",
       "g-uncle": "डॉ. नरेंद्र राजोरा एवं डॉ. सारिका राजोरा",
-      "g-cous1": "पीहू राजोरा", "g-cous2": "वेदांत राजोरा",
+      "g-cous1&2": "श्री वेदांत राजोरा एवं सुश्री पीहू राजोरा",
+      "s-sali-sadu": "श्री निखिल शर्मा एवं श्रीमती शिवानी शर्मा",
+      "s-sala": "श्री सौरभ शर्मा",
+      "rel-cgp": "कज़िन दादा जी और कज़िन दादी जी", "rel-ggp": "परदादा जी और परदादी जी",
       "rel-gp": "दादाजी और दादीजी", "rel-gpfm": "दादाजी और दादीजी",
-      "rel-ua": "ताऊ जी और ताई जी", "rel-dm": "माताजी और पिताजी", "rel-bsl": "भैया और भाभी",
-      "rel-nephew": "भतीजा", "rel-cc": "चाचा जी और चाची जी", "rel-cs": "चचेरी बहन", "rel-cb": "चचेरा भाई",
+      "rel-gpm": "दादाजी और दादीजी", "rel-md": "माताजी और पिताजी",
+      "rel-ua": "ताऊ जी और ताई जी", "rel-ua-g": "चाचा जी और चाची जी", "rel-dm": "माताजी और पिताजी", "rel-bsl": "भैया और भाभी",
+      "rel-nephew": "भतीजा", "rel-cc": "चाचा जी और चाची जी", "rel-cbcs": "चचेरा भाई और चचेरी बहन",
+      "rel-sali-sadu": "साढ़ू भाई और साली", "rel-sala": "साला",
       "gal-eyebrow": "कुछ पसंदीदा यादें", "gal-title": "हमारा अब तक का सफर",
       "gal-share-title": "इस सफर का हिस्सा बनें", "gal-share-desc": "क्या आपने कोई अच्छी तस्वीर खींची है? अपनी तस्वीरें अपलोड करें या तैयार होने पर प्रोफेशनल तस्वीरें डाउनलोड करें — दोनों हमारे साझा गूगल ड्राइव से जुड़े हैं।",
       "gal-btn-up": "शादी की तस्वीरें अपलोड करें ✈", "gal-btn-dl": "शादी की तस्वीरें डाउनलोड करें ↓",
       "gal-dev-note": "— साझा गूगल ड्राइव लिंक को यहाँ बदलें —",
       "hash-eyebrow": "टैग करें", "hash-title": "वेडिंग हैशटैग",
-      "rsvp-eyebrow": "कृपया जल्द उत्तर दें", "rsvp-subtitle": "हमें बताएं कि क्या आप आ रहे हैं — और आप इसके लिए कितने उत्साहित हैं।",
+      "rsvp-eyebrow": "कृपया जल्द उत्तर दें", "rsvp-subtitle": "आपको सपरिवार आना पड़ेगा — इसके लिए नीचे दिया गया फॉर्म भरें और अपनी शुभकामनाएं हमें भेजें।",
       "lbl-name": "पूरा नाम", "ph-name": "आपका नाम दर्ज करें", "lbl-attend": "क्या आप शामिल होंगे?",
       "btn-accept": "सहर्ष स्वीकार", "btn-decline": "आने में असमर्थ",
       "lbl-excite": "उत्साह का स्तर", "lbl-wishes": "शुभकामनाएं संदेश (वैकल्पिक)",
@@ -1391,16 +1602,31 @@
       "party-eyebrow": "Z Miłością i Błogosławieństwem", "party-title": "Nasze Rodziny",
       "party-subtitle": "Z miłością od obu rodzin.",
       "side-saloni": "Strona Saloni", "side-gaurav": "Strona Gaurava",
+      "s-md": "Pan Dinesh Chandra Sharma & Pani Beena Devi",
       "s-gp": "Śp. Shiv Charan Sharma & Śp. Shanti Devi",
+      "g-ggp": "Śp. Sahab Singh & Śp. Hoshiyari Devi",
       "g-gp": "Dr Thakur Das & Śp. Munni Devi",
+      "g-cgp1": "Pan Rambhul Rajora & Pani Kasturi Devi",
+      "g-cgp2": "Pan Mahindar Rajora & Śp. Genda Devi",
+      "g-md": "Pan Naresh Rajora & Pani Rukami Rajora",
+      "g-ua2": "Dr Narendra Rajora & Dr Sarika Rajora",
+      "g-ua3": "Pan Neeraj Rajora & Pani Nitesh Rajora",
+      "g-ua4": "Pan Rajeev Rajora & Pani Shalu Rajora",
+      "g-ua5": "Pan Dheeraj Rajora & Pani Babli Rajora",
+      "g-ua6": "Pan Vipin Rajora & Pani Preeti Rajora",
       "g-parents": "Pan Naresh Rajora & Pani Rukmani Rajora",
       "g-bro": "Himanshu Rajora & Shivangi Rajora",
-      "g-nephew": "Naksh Rajora",
+      "g-nephew": "Master Naksh Rajora",
       "g-uncle": "Dr Narendra Rajora & Dr Sarika Rajora",
-      "g-cous1": "Peehu Rajora", "g-cous2": "Vedant Rajora",
+      "g-cous1&2": "Pan Vedant Rajora & Pani Peehu Rajora",
+      "s-sali-sadu": "Pan Nikhil Sharma & Pani Shivani Sharma",
+      "s-sala": "Pan Saurabh Sharma",
+      "rel-cgp": "Kuzynostwo Dziadków", "rel-ggp": "Pradziadek & Prababcia",
       "rel-gp": "Dziadek & Babcia", "rel-gpfm": "Dziadek & Babcia",
-      "rel-ua": "Wujostwo", "rel-dm": "Rodzice", "rel-bsl": "Brat z Bratową",
-      "rel-nephew": "Bratanek", "rel-cc": "Stryjostwo", "rel-cs": "Kuzynka", "rel-cb": "Kuzyn",
+      "rel-gpm": "Dziadek & Babcia", "rel-md": "Rodzice",
+      "rel-ua": "Wujostwo", "rel-ua-g": "Wujostwo", "rel-dm": "Rodzice", "rel-bsl": "Brat z Bratową",
+      "rel-nephew": "Siostrzeniec / Bratanek", "rel-cc": "Stryjostwo", "rel-cbcs": "Kuzynostwo",
+      "rel-sali-sadu": "Szwagier i Szwagierka", "rel-sala": "Szwagier",
       "gal-eyebrow": "Kilka Ulubionych", "gal-title": "Nasza Wspólna Droga",
       "gal-share-title": "Podziel się Wspomnieniami", "gal-share-desc": "Zrobiłeś ładne zdjęcie? Dodaj je do naszego albumu Google Drive.",
       "gal-btn-up": "Prześlij Zdjęcia Weselne ✈", "gal-btn-dl": "Pobierz Zdjęcia Weselne ↓",
@@ -1509,6 +1735,22 @@
   }
   setInterval(runCountdown, 1000);
   runCountdown();
+
+  // ---------- HERO PIN ZOOM (scale photo on scroll through pinned section) ----------
+  const heroPin = document.getElementById('hero');
+  const heroImg = document.getElementById('heroImg');
+  const heroTextEl = document.getElementById('heroText');
+  function updateHeroZoom(){
+    const rect = heroPin.getBoundingClientRect();
+    const total = heroPin.offsetHeight - window.innerHeight;
+    const progress = Math.min(Math.max(-rect.top / total, 0), 1);
+    heroImg.style.transform = `scale(${1.06 + progress * 0.18})`;
+    const textProgress = Math.min(progress / 0.55, 1);
+    heroTextEl.style.opacity = 1 - textProgress;
+    heroTextEl.style.transform = `translateY(${-textProgress * 40}px)`;
+  }
+  window.addEventListener('scroll', () => requestAnimationFrame(updateHeroZoom));
+  updateHeroZoom();
 
   // ---------- INTERSECTION REVEAL PROPAGATOR ----------
   const observerOptions = { threshold: 0.08, rootMargin: '0px 0px -40px 0px' };
