@@ -582,24 +582,44 @@
     .excite-row button { width: 40px; height: 40px; font-size: 1rem; }
   }
 
-  /* ---------- AIRSHOW HOLI BURST PLANES ---------- */
-  .airshow-container { 
+  //* ---------- HOLI FESTIVAL PLANES ---------- */
+  .holi-container { 
     position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 1; 
   }
   .ending-quote, .ending-signoff, .ending-plane { 
     position: relative; z-index: 3; 
   }
-  .burst-wrap { 
-    position: absolute; bottom: -5vh; left: 50%; margin-left: -16px; 
-    display: flex; flex-direction: column; align-items: center;
-    opacity: 0;
-    /* Custom ease-out curve so they shoot fast then drift beautifully */
-    animation: burst-fly 8s cubic-bezier(0.1, 0.8, 0.3, 1) infinite;
+  .holi-wrap { 
+    position: absolute; display: flex; align-items: center; opacity: 0; will-change: transform, opacity; 
   }
-  .burst-trail { 
-    width: 14px; height: 40vh; border-radius: 10px; filter: blur(5px); opacity: 0.85; 
-    margin-top: -8px; 
-    background: linear-gradient(to bottom, var(--trail-color) 0%, transparent 100%);
+  .holi-trail { 
+    width: 160px; height: 8px; border-radius: 8px; filter: blur(5px); opacity: 0.65; 
+  }
+  
+  /* Left to Right Planes */
+  .holi-wrap.lr { animation: flyHoliLR linear infinite; left: 0; }
+  .holi-wrap.lr .holi-trail { 
+    background: linear-gradient(to right, transparent, rgba(0,204,153,0.8), rgba(255,204,0,0.8), rgba(255,0,102,0.8)); 
+    margin-right: -12px; 
+  }
+  @keyframes flyHoliLR {
+    0% { transform: translate(-30vw, var(--start-y, 5vh)) rotate(var(--rot, -8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+    10% { opacity: var(--max-op, 1); }
+    90% { opacity: var(--max-op, 1); }
+    100% { transform: translate(120vw, var(--end-y, -15vh)) rotate(var(--rot, -8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+  }
+  
+  /* Right to Left Planes */
+  .holi-wrap.rl { animation: flyHoliRL linear infinite; right: 0; flex-direction: row-reverse; }
+  .holi-wrap.rl .holi-trail { 
+    background: linear-gradient(to left, transparent, rgba(0,204,153,0.8), rgba(255,204,0,0.8), rgba(255,0,102,0.8)); 
+    margin-left: -12px; 
+  }
+  @keyframes flyHoliRL {
+    0% { transform: translate(30vw, var(--start-y, 5vh)) rotate(var(--rot, 8deg)) scale(var(--scale, 0.8)); opacity: 0; }
+    10% { opacity: var(--max-op, 1); }
+    90% { opacity: var(--max-op, 1); }
+    100% { transform: translate(-120vw, var(--end-y, -15vh)) rotate(var(--rot, 8deg)) scale(var(--scale, 0.8)); opacity: 0; }
   }
   
   /* Master Mathematical Animation for Parabolas */
@@ -1295,6 +1315,9 @@
 <!-- ENDING -->
 <section class="ending" id="ending">
   
+  <!-- ENDING -->
+<section class="ending" id="ending">
+  
   <!-- HOLI BACKGROUND PLANES -->
   <div class="holi-container">
     <div class="holi-wrap lr" style="top: 15%; animation-duration: 16s; animation-delay: 0s; --start-y: 10vh; --end-y: -20vh; --rot: -12deg; --scale: 1; --max-op: 0.85;">
@@ -1322,6 +1345,27 @@
       <svg viewBox="0 0 24 24" width="32" height="32" fill="var(--gold)" style="transform: rotate(-90deg);"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
     </div>
   </div>
+
+  <!-- ORIGINAL FLOATING FLOWERS -->
+  <div class="float-flower" style="width:46px; height:46px; top:8%; left:8%; animation-duration:8.5s;">
+    <svg viewBox="0 0 64 64"><g fill="var(--blush-pale)" opacity="0.7"><circle cx="32" cy="18" r="9"/><circle cx="18" cy="32" r="9"/><circle cx="46" cy="32" r="9"/><circle cx="32" cy="46" r="9"/></g><circle cx="32" cy="32" r="7" fill="var(--gold-soft)"/></svg>
+  </div>
+  <div class="float-flower" style="width:38px; height:38px; top:14%; right:10%; animation-duration:7s; animation-delay:1s;">
+    <svg viewBox="0 0 64 64"><g fill="var(--gold-soft)" opacity="0.7"><circle cx="32" cy="18" r="9"/><circle cx="18" cy="32" r="9"/><circle cx="46" cy="32" r="9"/><circle cx="32" cy="46" r="9"/></g><circle cx="32" cy="32" r="7" fill="var(--blush-pale)"/></svg>
+  </div>
+  
+  <div class="ending-quote reveal">
+    <p class="line1" data-trn="end-q1">Every love story is beautiful,<br>but ours began 35,000 feet above the ground.</p>
+    <p class="line2" data-trn="end-q2">Thank you for becoming part of our forever.</p>
+  </div>
+  <div class="ending-signoff reveal">
+    <div class="with-love" data-trn="end-love">With Love</div>
+    <div class="names shine-text">Gaurav ❤ Saloni</div>
+  </div>
+  
+  <!-- RSVP TAKEOFF PLANE -->
+  <div class="ending-plane" id="endingPlane">✈</div>
+</section>
 
   <!-- ORIGINAL FLOATING FLOWERS -->
   <div class="float-flower" style="width:46px; height:46px; top:8%; left:8%; animation-duration:8.5s;">
